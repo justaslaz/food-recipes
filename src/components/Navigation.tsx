@@ -38,8 +38,10 @@ export default function Navigation() {
           </button>
         </div>
 
+        {/* Whole Navigation ex. Logo */}
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
+            {/* Receptai Button */}
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
               Receptai
               <ChevronDownIcon
@@ -47,6 +49,8 @@ export default function Navigation() {
                 aria-hidden="true"
               />
             </Popover.Button>
+
+            {/* Receptai Pop-Up Panel */}
             <Transition
               as={Fragment}
               enter="transition ease-out duration-200"
@@ -56,34 +60,28 @@ export default function Navigation() {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                <div className="p-4">
+              <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-56 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                <div className="p-2">
                   {TAGS_MOCKUP.map((category) => (
-                    <div
+                    // TODO fix href
+                    <Link
                       key={category}
-                      className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                      href="/"
+                      className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
                     >
-                      <div className="flex-auto">
-                        {/* TODO fix href */}
-                        <Link
-                          href="/"
-                          className="block font-semibold text-gray-900"
-                        >
-                          {category}
-                          <span className="absolute inset-0" />
-                        </Link>
-                      </div>
-                    </div>
+                      {category}
+                    </Link>
                   ))}
                 </div>
-
-                <div className="bg-gray-50">
+                <div className="flex items-center justify-center bg-gray-50 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100">
                   {/* TODO fix href */}
-                  <Link href="/">Visi receptai</Link>
+                  <Link href="/">Rodyti visus receptus</Link>
                 </div>
               </Popover.Panel>
             </Transition>
           </Popover>
+
+          {/* Search Pop-Up */}
 
           {/* TODO mock up below */}
           <Link href="/">Search</Link>
