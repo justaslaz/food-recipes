@@ -60,9 +60,15 @@ export default function Navigation() {
           {/* My Favorites Button */}
           <button
             type="button"
-            className="inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:text-green-700 hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
-            <HeartIcon className="h-9 w-9" aria-hidden="true" />
+            <div className="relative transition-all duration-300 group-hover:scale-105 group-hover:text-red-700/80">
+              <HeartIcon className="h-9 w-9" aria-hidden="true" />
+              <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
+                2
+              </span>
+            </div>
+
             <div className="flex flex-col items-start">
               <span className="text-xs font-normal">Mano</span>
               <span className="text-sm font-medium tracking-wider">
