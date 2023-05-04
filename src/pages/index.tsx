@@ -1,4 +1,4 @@
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/Navigation/Navigation';
 import { Nunito } from 'next/font/google';
 
 const nunito = Nunito({ subsets: ['latin'] });
