@@ -62,7 +62,7 @@ export default function Navigation() {
             type="button"
             className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
           >
-            <div className="relative transition-all duration-300 group-hover:scale-105 group-hover:text-red-700/80">
+            <div className="relative transition-all group-hover:scale-105 group-hover:text-red-700/80 group-active:scale-90">
               <HeartIcon className="h-9 w-9" aria-hidden="true" />
               <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
                 2
