@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer';
 import Navigation from '@/components/Navigation/Navigation';
 import { Nunito } from 'next/font/google';
 
@@ -14,6 +15,7 @@ export default function Home() {
           <p>Lol</p>
         </div>
       </main>
+      <Footer />
     </>
   );
 }
