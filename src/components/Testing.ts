@@ -28,7 +28,3 @@ const mockupData = [
     notes: ['Instead of ... you can use ...'],
   },
 ];
-
-export default function Testing() {
-  return <></>;
-}
