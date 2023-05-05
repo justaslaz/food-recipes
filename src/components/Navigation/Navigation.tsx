@@ -9,11 +9,10 @@ import {
 import ReceptaiPopover from './ReceptaiPopover';
 import LinkLogo from '../General/LinkLogo';
 import MobileMenu from './MobileMenu';
+import Link from 'next/link';
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  console.log(isMobileMenuOpen);
 
   return (
     <header className="bg-white">
@@ -65,7 +64,7 @@ export default function Navigation() {
               <div className="relative transition-all group-hover:scale-105 group-hover:text-red-800 group-active:scale-90">
                 <HeartIcon className="h-9 w-9" aria-hidden="true" />
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
-                  2
+                  {/* TODO count should come from DB, hide if 0 */}2
                 </span>
               </div>
 
@@ -78,8 +77,9 @@ export default function Navigation() {
             </button>
 
             {/* Log In / Register Button */}
-            <button
-              type="button"
+            {/* TODO add href */}
+            <Link
+              href="/"
               className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             >
               <div className="transition-transform group-hover:scale-105 group-active:scale-90">
@@ -92,7 +92,7 @@ export default function Navigation() {
                   Prisijungimas
                 </span>
               </div>
-            </button>
+            </Link>
           </div>
         </Popover.Group>
       </nav>

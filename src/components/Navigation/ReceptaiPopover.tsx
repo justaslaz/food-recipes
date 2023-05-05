@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Popover, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
 
+// TODO Categories should come from DB
 const TAGS_MOCKUP = ['Break', 'Random', 'OMG'];
 
 export default function ReceptaiPopover() {
@@ -30,7 +31,7 @@ export default function ReceptaiPopover() {
         <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-56 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-stone-900/5">
           <div className="p-2">
             {TAGS_MOCKUP.map((category) => (
-              // TODO fix href
+              // TODO add href
               <Link
                 key={category}
                 href="/"
@@ -41,7 +42,7 @@ export default function ReceptaiPopover() {
             ))}
           </div>
           <div className="flex items-center justify-center bg-stone-50 p-3 text-sm font-semibold leading-6 hover:bg-stone-100">
-            {/* TODO fix href */}
+            {/* TODO add href */}
             <Link href="/">Rodyti visus receptus</Link>
           </div>
         </Popover.Panel>

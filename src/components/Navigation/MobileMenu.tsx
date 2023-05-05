@@ -8,6 +8,7 @@ interface Props {
   onClose: () => void;
 }
 
+// TODO categories should come from DB
 const TAGS_MOCKUP = ['Break', 'Random', 'OMG'];
 
 export default function MobileMenu({ open, onClose }: Props) {
@@ -41,7 +42,7 @@ export default function MobileMenu({ open, onClose }: Props) {
                 </Disclosure.Button>
                 <Disclosure.Panel className="my-2 space-y-2">
                   {TAGS_MOCKUP.map((category) => (
-                    // TODO add correct href
+                    // TODO add href, onClick close menu
                     <Disclosure.Button
                       key={category}
                       as={Link}
@@ -51,6 +52,7 @@ export default function MobileMenu({ open, onClose }: Props) {
                       {category}
                     </Disclosure.Button>
                   ))}
+                  {/* TODO add href, onClick close menu */}
                   <Disclosure.Button
                     as={Link}
                     href="/"
@@ -65,6 +67,7 @@ export default function MobileMenu({ open, onClose }: Props) {
 
           {/* Paieška Button */}
           <div className="-mx-3">
+            {/* TODO onClick close menu */}
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
@@ -75,6 +78,7 @@ export default function MobileMenu({ open, onClose }: Props) {
 
           {/* Mėgstamiausi Button */}
           <div className="-mx-3">
+            {/* TODO onClick close menu */}
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
@@ -91,6 +95,7 @@ export default function MobileMenu({ open, onClose }: Props) {
             >
               Prisijungimas
             </Link>
+            {/* TODO add href */}
             <Link
               href="/"
               className="w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
