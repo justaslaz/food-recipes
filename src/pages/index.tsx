@@ -1,4 +1,5 @@
 import Footer from '@/components/Footer';
+import Hero from '@/components/Hero';
 import Navigation from '@/components/Navigation/Navigation';
 import { Nunito } from 'next/font/google';
 
@@ -9,11 +10,9 @@ export default function Home() {
     <>
       <Navigation />
       <main
-        className={`flex min-h-screen flex-col items-center justify-between p-24 ${nunito.className}`}
+        className={`flex min-h-screen flex-col items-center justify-between ${nunito.className}`}
       >
-        <div>
-          <p>Lol</p>
-        </div>
+        <Hero />
       </main>
       <Footer />
     </>
