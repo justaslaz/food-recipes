@@ -15,7 +15,13 @@ export default function Hero() {
                 </h1>
                 <p className="mt-6 text-lg leading-8 text-stone-600">
                   Ieškau, išsirenku, gaminu ir... valgau sveikai! <br /> Norite
-                  išsaugoti savo receptą? Prisijunkite!
+                  išsaugoti savo receptą?
+                  <Link
+                    href="/"
+                    className="ml-2 underline underline-offset-2 transition-colors hover:text-green-600 active:text-green-700"
+                  >
+                    Prisijunkite!
+                  </Link>
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   {/* TODO add href */}
@@ -28,7 +34,7 @@ export default function Hero() {
                   {/* TODO add href */}
                   <Link
                     href="/"
-                    className="font-semibold leading-6 text-stone-900 transition-colors hover:text-green-600"
+                    className="font-semibold leading-6 text-stone-900 transition-colors hover:text-green-600 active:text-green-700"
                   >
                     Mūsų populiariausi <span aria-hidden="true">→</span>
                   </Link>

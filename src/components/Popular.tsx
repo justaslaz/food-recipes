@@ -33,12 +33,12 @@ export default function Popular() {
             <Link
               key={meal.name}
               href={meal.href}
-              className="overflow-hidden rounded-3xl shadow-md transition-shadow hover:shadow-2xl"
+              className="overflow-hidden rounded-3xl shadow-md transition-shadow duration-300 hover:shadow-2xl"
             >
               <Image
                 src={meal.imageUrl}
                 alt={meal.name}
-                className={`h-24 w-24 object-cover transition-transform hover:scale-110 ${
+                className={`h-24 w-24 object-cover transition-transform duration-300 hover:scale-110 ${
                   i % 2 === 0 && 'h-32 w-32'
                 }`}
               />
