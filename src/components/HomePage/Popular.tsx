@@ -1,18 +1,17 @@
 import Link from 'next/link';
-import mockupPhoto from '../../public/plate-food.jpg';
 import Image from 'next/image';
 
 // TODO data should come from DB
 const MOCKUP_POPULAR = [
-  { name: 'Chicken Salad', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad2', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad3', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad4', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad5', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad6', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad7', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad8', href: '/', imageUrl: mockupPhoto },
-  { name: 'Chicken Salad9', href: '/', imageUrl: mockupPhoto },
+  { name: 'Chicken Salad', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad2', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad3', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad4', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad5', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad6', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad7', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad8', href: '/', imageUrl: '/plate-food.jpg' },
+  { name: 'Chicken Salad9', href: '/', imageUrl: '/plate-food.jpg' },
 ];
 
 export default function Popular() {
@@ -38,6 +37,8 @@ export default function Popular() {
               <Image
                 src={meal.imageUrl}
                 alt={meal.name}
+                width={150}
+                height={100}
                 className={`h-24 w-24 object-cover transition-transform duration-300 hover:scale-110 ${
                   i % 2 === 0 && 'h-32 w-32'
                 }`}

@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import foodPlate from '../../public/plate-food.jpg';
 
 export default function Hero() {
   return (
@@ -44,11 +43,12 @@ export default function Hero() {
           </div>
           <div className="mx-auto mt-20 overflow-hidden shadow-lg sm:mt-24 sm:w-11/12 sm:max-w-2xl sm:rounded-2xl lg:mt-0">
             <Image
-              src={foodPlate}
+              src="/plate-food.jpg"
               width={600}
               height={400}
               alt="Plate of food"
               className="h-auto w-full object-cover"
+              priority
             ></Image>
           </div>
         </div>
