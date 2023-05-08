@@ -15,7 +15,7 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="border-b border-b-stone-100 bg-white">
+    <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8"
         aria-label="Global"
