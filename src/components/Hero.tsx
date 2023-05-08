@@ -6,7 +6,7 @@ export default function Hero() {
   return (
     <section className="bg-transparent">
       <div className="relative isolate overflow-hidden">
-        <div className="mx-auto max-w-7xl pb-24 pt-10 sm:pb-32 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
+        <div className="mx-auto max-w-7xl pb-32 pt-10 sm:pt-20 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:px-8 lg:py-40">
           <div className="px-6 lg:px-0 lg:pt-4">
             <div className="mx-auto max-w-2xl">
               <div className="max-w-lg">
@@ -42,12 +42,13 @@ export default function Hero() {
               </div>
             </div>
           </div>
-          <div className="mx-2 mt-20 overflow-hidden rounded-2xl shadow-lg sm:mt-24 sm:max-w-2xl md:mx-auto lg:mt-0">
+          <div className="mx-auto mt-20 overflow-hidden shadow-lg sm:mt-24 sm:w-11/12 sm:max-w-2xl sm:rounded-2xl lg:mt-0">
             <Image
               src={foodPlate}
               width={600}
               height={400}
               alt="Plate of food"
+              className="h-auto w-full object-cover"
             ></Image>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="bg-transparent">
-      <div className="mx-auto max-w-7xl overflow-hidden px-6 py-16 lg:px-8">
+      <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-16 lg:px-8">
         <hr className="mb-12 border-stone-500/10 sm:mx-auto lg:my-8" />
         <nav
           className="-mb-6 columns-2 text-center sm:flex sm:justify-center sm:space-x-12"
