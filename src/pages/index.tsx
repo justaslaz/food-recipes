@@ -4,11 +4,7 @@ import Hero from "~/components/home-page/Hero";
 import Popular from "~/components/home-page/Popular";
 import SearchSection from "~/components/home-page/SearchSection";
 
-// import { api } from "~/utils/api";
-
 const Home: NextPage = () => {
-  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>

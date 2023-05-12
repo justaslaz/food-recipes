@@ -1,7 +1,7 @@
-import { mockupData } from "~/components/Testing";
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { api } from "~/utils/api";
 
 // TODO length should be calculated from DB response, category should come as a prop?
 const searchResultsProps = {
@@ -10,6 +10,9 @@ const searchResultsProps = {
 };
 
 export default function SearchResults() {
+  const allRecipes = api.example.getAll.useQuery();
+  const allCategories = api.categories.getAll.useQuery();
+
   return (
     <>
       <div className="mx-auto max-w-7xl px-8 pt-12 sm:pt-16">
@@ -18,7 +21,7 @@ export default function SearchResults() {
       <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         {/* GRID LAYOUT */}
         <div className="mb-10 grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-x-10 lg:mb-14 lg:grid-cols-3 lg:gap-14">
-          {mockupData.map((recipe) => (
+          {allRecipes.data?.map((recipe) => (
             // RECIPE CARD
             <div
               key={recipe.id}
@@ -48,12 +51,12 @@ export default function SearchResults() {
 
               {/* Categories */}
               <div className="mb-4 flex gap-x-1.5 p-1.5">
-                {recipe.categories.map((category) => (
+                {allCategories.data?.map((category) => (
                   <div
-                    key={category}
+                    key={category.id}
                     className="rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
                   >
-                    <span>{category}</span>
+                    <span>{category.name}</span>
                   </div>
                 ))}
               </div>
@@ -67,7 +70,7 @@ export default function SearchResults() {
               <div className="mb-3 mt-auto flex flex-col items-center justify-center gap-y-2 text-stone-500">
                 <div className="flex items-center justify-center gap-x-2">
                   <ClockIcon className="h-5 w-5" aria-hidden="true" />
-                  <span className="text-sm font-medium">{`${recipe.time} min`}</span>
+                  <span className="text-sm font-medium">{`${recipe.cookingTime} min`}</span>
                 </div>
 
                 <Link
