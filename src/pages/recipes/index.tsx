@@ -1,4 +1,5 @@
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
+import { type NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
@@ -9,7 +10,8 @@ const searchResultsProps = {
   resultLength: 8,
 };
 
-export default function SearchResults() {
+// Page
+const SearchResults: NextPage = () => {
   const allRecipes = api.example.getAll.useQuery();
   const allCategories = api.categories.getAll.useQuery();
 
@@ -116,4 +118,6 @@ export default function SearchResults() {
       </div>
     </>
   );
-}
+};
+
+export default SearchResults;

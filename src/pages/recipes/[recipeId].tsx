@@ -10,13 +10,10 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { correctWordEnding } from "~/utils/correctWordEnding";
+import { type NextPage } from "next";
 
-type ComponentProps = {
-  // onClick: MouseEventHandler;
-  // children?: React.ReactNode;
-};
-
-export default function RecipeDetails({}: ComponentProps) {
+// Page
+const RecipeDetails: NextPage = () => {
   return (
     <>
       {/* IMAGE SECTION */}
@@ -134,4 +131,6 @@ export default function RecipeDetails({}: ComponentProps) {
       </div>
     </>
   );
-}
+};
+
+export default RecipeDetails;
