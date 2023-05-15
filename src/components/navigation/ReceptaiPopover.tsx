@@ -6,7 +6,6 @@ import { api } from "~/utils/api";
 
 export default function ReceptaiPopover() {
   const { data: categoriesArr } = api.categories.getAll.useQuery();
-  console.log(categoriesArr);
 
   return (
     <Popover className="relative">
@@ -36,7 +35,10 @@ export default function ReceptaiPopover() {
               <Popover.Button
                 as={Link}
                 key={category.id}
-                href="/recipes"
+                href={{
+                  pathname: "/recipes",
+                  query: { categoryName: category.name },
+                }}
                 className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 hover:bg-stone-50"
               >
                 {category.name}
