@@ -1,12 +1,12 @@
-import { Fragment } from 'react';
-import Link from 'next/link';
-import { Popover, Transition } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-
-// TODO Categories should come from DB
-const TAGS_MOCKUP = ['Break', 'Random', 'OMG'];
+import { Fragment } from "react";
+import Link from "next/link";
+import { Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { api } from "~/utils/api";
 
 export default function ReceptaiPopover() {
+  const { data: categoriesArr } = api.categories.getAll.useQuery();
+
   return (
     <Popover className="relative">
       {/* Receptai Button */}
@@ -30,20 +30,25 @@ export default function ReceptaiPopover() {
       >
         <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-56 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-stone-900/5">
           <div className="p-2">
-            {TAGS_MOCKUP.map((category) => (
-              // TODO add href
-              <Link
-                key={category}
-                href="/"
+            {categoriesArr?.map((category) => (
+              // TODO add correct href for every category
+              <Popover.Button
+                as={Link}
+                key={category.id}
+                href={{
+                  pathname: "/recipes",
+                  query: { categoryName: category.name },
+                }}
                 className="block rounded-lg px-3 py-2 text-sm font-semibold leading-6 hover:bg-stone-50"
               >
-                {category}
-              </Link>
+                {category.name}
+              </Popover.Button>
             ))}
           </div>
           <div className="flex items-center justify-center bg-stone-50 p-3 text-sm font-semibold leading-6 hover:bg-stone-100">
-            {/* TODO add href */}
-            <Link href="/">Rodyti visus receptus</Link>
+            <Popover.Button as={Link} href="/recipes">
+              Rodyti visus receptus
+            </Popover.Button>
           </div>
         </Popover.Panel>
       </Transition>

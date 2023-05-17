@@ -16,7 +16,10 @@ const MOCKUP_POPULAR = [
 
 export default function Popular() {
   return (
-    <section className="mx-auto max-w-7xl bg-transparent px-4 pb-32 sm:px-6 lg:px-8 lg:pb-40">
+    <section
+      id="popular"
+      className="mx-auto max-w-7xl scroll-mt-20 bg-transparent px-4 pb-32 sm:px-6 lg:px-8 lg:pb-40"
+    >
       <div className="mx-auto flex max-w-4xl flex-col items-center justify-center gap-y-4">
         <h2 className="text-3xl font-bold tracking-tight text-stone-900 sm:text-5xl">
           Populiariausi receptai

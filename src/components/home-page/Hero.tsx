@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import Link from 'next/link';
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -23,16 +23,15 @@ export default function Hero() {
                   </Link>
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
-                  {/* TODO add href */}
                   <Link
-                    href="/"
+                    href="/recipes"
                     className="rounded-md bg-green-600 px-5 py-2 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-95"
                   >
                     Receptai
                   </Link>
                   {/* TODO add href */}
                   <Link
-                    href="/"
+                    href="/#popular"
                     className="font-semibold leading-6 text-stone-900 transition-colors hover:text-green-600 active:text-green-700"
                   >
                     Mūsų populiariausi <span aria-hidden="true">→</span>

@@ -1,6 +1,4 @@
 import Image from "next/image";
-
-import { mockupData } from "~/components/Testing";
 import {
   CheckIcon,
   ClockIcon,
@@ -10,20 +8,37 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { correctWordEnding } from "~/utils/correctWordEnding";
+import { type NextPage } from "next";
+import { useRouter } from "next/router";
+import { api } from "~/utils/api";
 
-type ComponentProps = {
-  // onClick: MouseEventHandler;
-  // children?: React.ReactNode;
-};
+// Page
+const RecipeDetails: NextPage = () => {
+  const router = useRouter();
 
-export default function RecipeDetails({}: ComponentProps) {
+  const recipeQuery = api.recipe.getRecipe.useQuery({
+    recipeId: router.query.recipeId?.toString() ?? "clhonfaf000008zt66h2svbmx",
+  });
+  const categoriesQuery = api.categories.getByRecipe.useQuery({
+    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
+  });
+  const ingredientsQuery = api.ingredients.getByRecipe.useQuery({
+    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
+  });
+  const preparationStepsQuery = api.preparationSteps.getByRecipe.useQuery({
+    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
+  });
+
+  // TODO add loading spinner
+  if (recipeQuery.isFetching || !recipeQuery.data) return <div>Loading...</div>;
+
   return (
     <>
       {/* IMAGE SECTION */}
       <div className="relative mx-auto mb-8 max-w-7xl overflow-hidden sm:mb-10 md:mb-12">
         <Image
-          src={mockupData?.[0]?.imageUrl ?? ""}
-          alt={mockupData?.[0]?.name ?? ""}
+          src={recipeQuery.data.imageUrl}
+          alt={recipeQuery.data.name}
           height={500}
           width={750}
           priority
@@ -32,12 +47,12 @@ export default function RecipeDetails({}: ComponentProps) {
 
         {/* Categories */}
         <div className="absolute bottom-4 left-4 flex gap-x-4">
-          {mockupData?.[0]?.categories.map((category) => (
+          {categoriesQuery.data?.map((category) => (
             <div
-              key={category}
+              key={category.id}
               className="rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
             >
-              <span>{category}</span>
+              <span>{category.name}</span>
             </div>
           ))}
         </div>
@@ -57,16 +72,14 @@ export default function RecipeDetails({}: ComponentProps) {
       {/* INFO SECTION */}
       <div className="mx-auto mb-14 flex max-w-7xl flex-col items-center justify-center gap-8 sm:mb-16 sm:gap-12 md:mb-20">
         <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
-          {mockupData?.[0]?.name}
+          {recipeQuery.data.name}
         </h1>
 
         <div className="flex gap-x-20">
           {/* Time Block */}
           <div className="flex gap-x-2">
             <ClockIcon className="h-6 w-6 text-stone-700" aria-hidden="true" />
-            <span className="font-medium">{`${
-              mockupData?.[0]?.time ?? ""
-            } min`}</span>
+            <span className="font-medium">{`${recipeQuery.data.cookingTime} min`}</span>
           </div>
 
           {/* Serving Size Block */}
@@ -80,9 +93,9 @@ export default function RecipeDetails({}: ComponentProps) {
 
             <UserIcon className="h-6 w-6 text-stone-700" aria-hidden="true" />
             <span className="font-medium">{`${
-              mockupData?.[0]?.servingsDef ?? ""
+              recipeQuery.data.servingSize
             } porcij${
-              correctWordEnding(mockupData?.[0]?.servingsDef ?? 2) as string
+              correctWordEnding(recipeQuery.data.servingSize) as string
             }`}</span>
 
             <button
@@ -104,7 +117,7 @@ export default function RecipeDetails({}: ComponentProps) {
 
           <div className="max-w-5xl">
             <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
-              {mockupData?.[0]?.ingredients.map((ingredient) => (
+              {ingredientsQuery.data?.map((ingredient) => (
                 <li key={ingredient.name} className="flex items-center gap-x-2">
                   <CheckIcon
                     className="h-4 w-4 flex-shrink-0 text-green-700"
@@ -125,13 +138,15 @@ export default function RecipeDetails({}: ComponentProps) {
         </h2>
 
         <ol className="flex list-decimal flex-col gap-y-2">
-          {mockupData?.[0]?.preparation.map((prepStep) => (
-            <li key={prepStep} className="font-medium leading-7">
-              {prepStep}
+          {preparationStepsQuery.data?.map((prepStep) => (
+            <li key={prepStep.id} className="font-medium leading-7">
+              {prepStep.name}
             </li>
           ))}
         </ol>
       </div>
     </>
   );
-}
+};
+
+export default RecipeDetails;
