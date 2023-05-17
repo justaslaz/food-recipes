@@ -21,4 +21,12 @@ export const recipeRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.prisma.recipe.findUnique({ where: { id: input.recipeId } });
     }),
+
+  getByKeyword: publicProcedure
+    .input(z.object({ keyword: z.string() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.recipe.findMany({
+        where: { name: { contains: input.keyword } },
+      });
+    }),
 });
