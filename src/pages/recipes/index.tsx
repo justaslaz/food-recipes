@@ -23,8 +23,8 @@ const SearchResults: NextPage = () => {
         <p className="text-center text-xl font-semibold sm:text-3xl">{`${titleWords} (${foundResultsAmount})`}</p>
       </div>
       <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
-        {/* GRID LAYOUT */}
-        <div className="mb-10 grid grid-cols-1 gap-y-10 sm:grid-cols-2 sm:gap-x-10 lg:mb-14 lg:grid-cols-3 lg:gap-14">
+        {/* LAYOUT - RECIPES LIST */}
+        <div className="mb-10 flex flex-wrap justify-center gap-y-10 sm:gap-x-10 lg:mb-14 lg:gap-14">
           {recipesQuery.data?.map((recipe) => (
             <RecipeCard
               key={recipe.id}
