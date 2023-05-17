@@ -2,16 +2,16 @@ import { Dialog, Disclosure } from "@headlessui/react";
 import LinkLogo from "~/components/common/LinkLogo";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import { api } from "~/utils/api";
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 
-// TODO categories should come from DB
-const TAGS_MOCKUP = ["Break", "Random", "OMG"];
-
 export default function MobileMenu({ open, onClose }: Props) {
+  const { data: categoriesArr } = api.categories.getAll.useQuery();
+
   return (
     <Dialog as="div" className="lg:hidden" open={open} onClose={onClose}>
       <div className="fixed inset-0 z-10 bg-stone-500/50 backdrop-blur" />
@@ -41,22 +41,25 @@ export default function MobileMenu({ open, onClose }: Props) {
                   />
                 </Disclosure.Button>
                 <Disclosure.Panel className="my-2 space-y-2">
-                  {TAGS_MOCKUP.map((category) => (
-                    // TODO add href, onClick close menu
+                  {categoriesArr?.map((category) => (
                     <Disclosure.Button
-                      key={category}
+                      key={category.id}
                       as={Link}
-                      href="/"
+                      href={{
+                        pathname: "/recipes",
+                        query: { categoryName: category.name },
+                      }}
                       className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-900 hover:bg-stone-50"
+                      onClick={onClose}
                     >
-                      {category}
+                      {category.name}
                     </Disclosure.Button>
                   ))}
-                  {/* TODO add href, onClick close menu */}
                   <Disclosure.Button
                     as={Link}
-                    href="/"
+                    href="/recipes"
                     className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-stone-900 hover:bg-stone-50"
+                    onClick={onClose}
                   >
                     Rodyti visus receptus
                   </Disclosure.Button>
@@ -67,10 +70,11 @@ export default function MobileMenu({ open, onClose }: Props) {
 
           {/* Paieška Button */}
           <div className="-mx-3">
-            {/* TODO onClick close menu */}
+            {/* TODO add search functionality, open modal on click */}
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+              onClick={onClose}
             >
               Paieška
             </button>
@@ -78,10 +82,11 @@ export default function MobileMenu({ open, onClose }: Props) {
 
           {/* Mėgstamiausi Button */}
           <div className="-mx-3">
-            {/* TODO onClick close menu */}
+            {/* TODO add favorites functionality, open modal on click */}
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+              onClick={onClose}
             >
               Mėgstamiausi
             </button>
@@ -92,6 +97,7 @@ export default function MobileMenu({ open, onClose }: Props) {
             <Link
               href="/"
               className="mt-3 w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+              onClick={onClose}
             >
               Prisijungimas
             </Link>
@@ -99,6 +105,7 @@ export default function MobileMenu({ open, onClose }: Props) {
             <Link
               href="/"
               className="w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+              onClick={onClose}
             >
               Registracija
             </Link>

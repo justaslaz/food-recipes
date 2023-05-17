@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 const SearchResults: NextPage = () => {
   const { query } = useRouter();
 
-  const recipesQuery = api.example.getByCategory.useQuery({
+  const recipesQuery = api.recipe.getByCategory.useQuery({
     categoryName: query.categoryName?.toString(),
   });
 
