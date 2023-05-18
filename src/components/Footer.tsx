@@ -1,6 +1,10 @@
-import Link from 'next/link';
+import { useSetAtom } from "jotai";
+import Link from "next/link";
+import { isOpenSearchPaletteAtom } from "~/utils/atoms";
 
 export default function Footer() {
+  const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
+
   return (
     <footer className="bg-transparent">
       <div className="mx-auto max-w-7xl overflow-hidden px-6 pb-16 lg:px-8">
@@ -21,9 +25,8 @@ export default function Footer() {
 
           {/* Receptai */}
           <div className="pb-6">
-            {/* TODO add href */}
             <Link
-              href="/"
+              href="/recipes"
               className="text-sm leading-6 text-stone-600/80 hover:text-stone-900/80"
             >
               Receptai
@@ -32,9 +35,9 @@ export default function Footer() {
 
           {/* Paieška */}
           <div className="pb-6">
-            {/* TODO add onClick */}
             <button
               type="button"
+              onClick={() => setIsOpenSearchPalette(true)}
               className="text-sm leading-6 text-stone-600/80 hover:text-stone-900/80"
             >
               Paieška

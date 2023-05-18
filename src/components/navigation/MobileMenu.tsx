@@ -3,6 +3,8 @@ import LinkLogo from "~/components/common/LinkLogo";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { api } from "~/utils/api";
+import { useSetAtom } from "jotai";
+import { isOpenSearchPaletteAtom } from "~/utils/atoms";
 
 interface Props {
   open: boolean;
@@ -11,6 +13,12 @@ interface Props {
 
 export default function MobileMenu({ open, onClose }: Props) {
   const { data: categoriesArr } = api.categories.getAll.useQuery();
+  const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
+
+  const handleSearchPaletteOpening = () => {
+    setIsOpenSearchPalette(true);
+    onClose();
+  };
 
   return (
     <Dialog as="div" className="lg:hidden" open={open} onClose={onClose}>
@@ -74,7 +82,7 @@ export default function MobileMenu({ open, onClose }: Props) {
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
-              onClick={onClose}
+              onClick={handleSearchPaletteOpening}
             >
               Paieška
             </button>

@@ -29,7 +29,6 @@ export default function Hero() {
                   >
                     Receptai
                   </Link>
-                  {/* TODO add href */}
                   <Link
                     href="/#popular"
                     className="font-semibold leading-6 text-stone-900 transition-colors hover:text-green-600 active:text-green-700"
