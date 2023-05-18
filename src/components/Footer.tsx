@@ -25,9 +25,8 @@ export default function Footer() {
 
           {/* Receptai */}
           <div className="pb-6">
-            {/* TODO add href */}
             <Link
-              href="/"
+              href="/recipes"
               className="text-sm leading-6 text-stone-600/80 hover:text-stone-900/80"
             >
               Receptai
@@ -36,7 +35,6 @@ export default function Footer() {
 
           {/* Paieška */}
           <div className="pb-6">
-            {/* TODO add onClick */}
             <button
               type="button"
               onClick={() => setIsOpenSearchPalette(true)}
