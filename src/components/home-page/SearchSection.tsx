@@ -19,7 +19,7 @@ export default function SearchSection() {
           <button
             type="button"
             onClick={() => setIsOpenSearchPalette(true)}
-            className="group mx-auto mt-10 flex w-full max-w-md gap-x-4 rounded-md border-0 bg-white/5 px-3 py-2 text-stone-400 shadow-sm ring-1 ring-inset ring-white/10 transition-all hover:ring-stone-200 focus:ring-stone-200 active:scale-95 sm:text-sm sm:leading-6"
+            className="group mx-auto mt-10 flex w-full max-w-md place-items-center gap-x-4 rounded-md border-0 bg-white/5 px-3 py-2 text-stone-400 shadow-sm ring-1 ring-inset ring-white/10 transition-all hover:ring-stone-200 focus:ring-stone-200 active:scale-95 sm:text-sm sm:leading-6"
           >
             <MagnifyingGlassIcon
               className="h-5 w-5 transition-transform group-hover:scale-105"
@@ -27,6 +27,10 @@ export default function SearchSection() {
             />
             <span className="transition-transform group-hover:scale-105">
               Ieškoti...
+            </span>
+
+            <span className="ml-auto flex-none pl-3 text-sm font-medium">
+              ⌘ K
             </span>
           </button>
 

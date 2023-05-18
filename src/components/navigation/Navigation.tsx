@@ -41,25 +41,28 @@ export default function Navigation() {
         </div>
 
         {/* Whole Navigation ex. Logo */}
-        <Popover.Group className="hidden lg:flex lg:w-3/4 lg:items-center lg:justify-between lg:gap-x-24">
-          <div className="flex items-center lg:gap-x-6">
+        <Popover.Group className="hidden lg:flex lg:w-3/4 lg:items-center lg:gap-x-16">
+          <div className="flex flex-1 items-center lg:gap-x-6">
             <ReceptaiPopover />
 
             {/* Search Button */}
             <button
               type="button"
               onClick={() => setIsOpenSearchPalette(true)}
-              className="inline-flex w-full items-center justify-start gap-x-2 rounded-md border-0 bg-white py-1.5 pl-3 pr-32 text-sm leading-6 text-stone-400 ring-1 ring-inset ring-stone-300 hover:ring-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:ring-2 xl:pr-72"
+              className="mx-auto flex w-full max-w-xl place-items-center gap-x-2 rounded-md border-0 bg-white px-3 py-2 text-sm text-stone-400 ring-1 ring-inset ring-stone-300 hover:ring-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:ring-2"
             >
               <MagnifyingGlassIcon
                 className="h-5 w-5 text-stone-400"
                 aria-hidden="true"
               />
               <span>Ieškoti...</span>
+              <span className="ml-auto flex-none pl-3 text-sm font-medium">
+                ⌘ K
+              </span>
             </button>
           </div>
 
-          <div className="flex items-center lg:gap-x-6">
+          <div className="ml-auto flex items-center lg:gap-x-6">
             {/* My Favorites Button */}
             <button
               type="button"
