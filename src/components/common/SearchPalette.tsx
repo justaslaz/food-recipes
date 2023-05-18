@@ -4,10 +4,12 @@ import Image from "next/image";
 import { Dialog, Combobox, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { api } from "~/utils/api";
+import { useAtom } from "jotai";
+import { isOpenSearchPaletteAtom } from "~/utils/atoms";
 
 export default function SearchPalette() {
   const [enteredInput, setEnteredInput] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useAtom(isOpenSearchPaletteAtom);
 
   const router = useRouter();
 
@@ -21,14 +23,14 @@ export default function SearchPalette() {
   useEffect(() => {
     const onKeydown = (event: KeyboardEvent) => {
       if (event.key === "k" && (event.metaKey || event.ctrlKey)) {
-        setIsOpen((prevState) => !prevState);
+        setIsOpen(!isOpen);
       }
     };
     window.addEventListener("keydown", onKeydown);
     return () => {
       window.removeEventListener("keydown", onKeydown);
     };
-  }, []);
+  }, [isOpen, setIsOpen]);
 
   const handlePageNavigation = (recipeId: string) => {
     setIsOpen(false);

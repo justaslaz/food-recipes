@@ -10,9 +10,12 @@ import ReceptaiPopover from "./ReceptaiPopover";
 import LinkLogo from "~/components/common/LinkLogo";
 import MobileMenu from "./MobileMenu";
 import Link from "next/link";
+import { useSetAtom } from "jotai";
+import { isOpenSearchPaletteAtom } from "~/utils/atoms";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
 
   return (
     <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
@@ -45,6 +48,7 @@ export default function Navigation() {
             {/* Search Button */}
             <button
               type="button"
+              onClick={() => setIsOpenSearchPalette(true)}
               className="inline-flex w-full items-center justify-start gap-x-2 rounded-md border-0 bg-white py-1.5 pl-3 pr-32 text-sm leading-6 text-stone-400 ring-1 ring-inset ring-stone-300 hover:ring-stone-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:ring-2 xl:pr-72"
             >
               <MagnifyingGlassIcon
