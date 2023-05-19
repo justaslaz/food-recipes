@@ -86,7 +86,7 @@ export default function Navigation() {
             {/* Log In / Register Button */}
             {/* TODO add href */}
             <Link
-              href="/"
+              href="/sign-in"
               className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             >
               <div className="transition-transform group-hover:scale-105 group-active:scale-90">

@@ -6,6 +6,7 @@ import { api } from "~/utils/api";
 
 export default function ReceptaiPopover() {
   const { data: categoriesArr } = api.categories.getAll.useQuery();
+  // console.log(categoriesArr);
 
   return (
     <Popover className="relative">
