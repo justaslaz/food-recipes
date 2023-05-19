@@ -24,7 +24,7 @@ const SearchResults: NextPage = () => {
       </div>
       <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         {/* LAYOUT - RECIPES LIST */}
-        <div className="mb-10 flex flex-wrap justify-center gap-y-10 sm:gap-x-10 lg:mb-14 lg:gap-14">
+        <div className="mb-10 flex flex-wrap justify-center gap-10 lg:mb-14 lg:gap-14">
           {recipesQuery.data?.map((recipe) => (
             <RecipeCard
               key={recipe.id}
