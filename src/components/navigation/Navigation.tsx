@@ -12,6 +12,7 @@ import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 import { useSetAtom } from "jotai";
 import { isOpenSearchPaletteAtom } from "~/utils/atoms";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -84,22 +85,28 @@ export default function Navigation() {
             </button>
 
             {/* Log In / Register Button */}
-            {/* TODO add href */}
-            <Link
-              href="/"
-              className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-            >
-              <div className="transition-transform group-hover:scale-105 group-active:scale-90">
-                <UserIcon className="h-9 w-9" aria-hidden="true" />
-              </div>
+            <SignedOut>
+              <Link
+                href="/sign-in"
+                className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              >
+                <div className="transition-transform group-hover:scale-105 group-active:scale-90">
+                  <UserIcon className="h-9 w-9" aria-hidden="true" />
+                </div>
 
-              <div className="flex flex-col items-start">
-                <span className="text-xs font-normal">Registracija</span>
-                <span className="text-sm font-medium tracking-wider">
-                  Prisijungimas
-                </span>
-              </div>
-            </Link>
+                <div className="flex flex-col items-start">
+                  <span className="text-xs font-normal">Registracija</span>
+                  <span className="text-sm font-medium tracking-wider">
+                    Prisijungimas
+                  </span>
+                </div>
+              </Link>
+            </SignedOut>
+
+            <SignedIn>
+              <UserButton afterSignOutUrl="/sign-in" />
+            </SignedIn>
+            {/*  */}
           </div>
         </Popover.Group>
       </nav>

@@ -1,3 +1,4 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,17 +16,27 @@ export default function Hero() {
                 <p className="mt-6 text-lg leading-8 text-stone-600">
                   Ieškau, išsirenku, gaminu ir... valgau sveikai! <br /> Norite
                   išsaugoti savo receptą?
-                  <Link
-                    href="/"
-                    className="ml-2 underline underline-offset-2 transition-colors hover:text-green-600 active:text-green-700"
-                  >
-                    Prisijunkite!
-                  </Link>
+                  <SignedOut>
+                    <Link
+                      href="/sign-in"
+                      className="ml-2 underline underline-offset-2 transition-colors hover:text-green-600 active:text-green-700"
+                    >
+                      Prisijunkite!
+                    </Link>
+                  </SignedOut>
+                  <SignedIn>
+                    <Link
+                      href="/create-recipe"
+                      className="ml-2 underline underline-offset-2 transition-colors hover:text-green-600 active:text-green-700"
+                    >
+                      Sukurkite ir įkelkite!
+                    </Link>
+                  </SignedIn>
                 </p>
                 <div className="mt-10 flex items-center gap-x-6">
                   <Link
                     href="/recipes"
-                    className="rounded-md bg-green-600 px-5 py-2 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-95"
+                    className="rounded-md bg-green-700 px-5 py-2 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-95"
                   >
                     Receptai
                   </Link>

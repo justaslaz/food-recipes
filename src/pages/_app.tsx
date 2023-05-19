@@ -3,14 +3,27 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Layout from "~/components/Layout";
 import { Provider } from "jotai";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
-    <Provider>
-      <Layout>
-        <Component {...pageProps} />;
-      </Layout>
-    </Provider>
+    <ClerkProvider
+      appearance={{
+        layout: {
+          socialButtonsPlacement: "bottom",
+        },
+        variables: {
+          colorPrimary: "#15803d",
+        },
+      }}
+      {...pageProps}
+    >
+      <Provider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Provider>
+    </ClerkProvider>
   );
 };
 
