@@ -6,7 +6,6 @@ import { api } from "~/utils/api";
 
 export default function ReceptaiPopover() {
   const { data: categoriesArr } = api.categories.getAll.useQuery();
-  // console.log(categoriesArr);
 
   return (
     <Popover className="relative">
@@ -32,7 +31,6 @@ export default function ReceptaiPopover() {
         <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-56 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-stone-900/5">
           <div className="p-2">
             {categoriesArr?.map((category) => (
-              // TODO add correct href for every category
               <Popover.Button
                 as={Link}
                 key={category.id}

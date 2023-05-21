@@ -11,12 +11,19 @@ import LinkLogo from "~/components/common/LinkLogo";
 import MobileMenu from "./MobileMenu";
 import Link from "next/link";
 import { useSetAtom } from "jotai";
-import { isOpenSearchPaletteAtom } from "~/utils/atoms";
+import {
+  isOpenFavoritesPaletteAtom,
+  isOpenSearchPaletteAtom,
+} from "~/utils/atoms";
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { api } from "~/utils/api";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
+  const setIsOpenFavoritesPalette = useSetAtom(isOpenFavoritesPaletteAtom);
+
+  const favoritesCountQuery = api.recipe.getLengthOfUserFavorites.useQuery();
 
   return (
     <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
@@ -67,12 +74,16 @@ export default function Navigation() {
             {/* My Favorites Button */}
             <button
               type="button"
+              onClick={() => {
+                console.log("clicked");
+                setIsOpenFavoritesPalette(true);
+              }}
               className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
             >
               <div className="relative transition-all group-hover:scale-105 group-hover:text-red-800 group-active:scale-90">
                 <HeartIcon className="h-9 w-9" aria-hidden="true" />
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-sm font-semibold">
-                  {/* TODO count should come from DB, hide if 0 */}2
+                  {favoritesCountQuery.data ? favoritesCountQuery.data : ""}
                 </span>
               </div>
 

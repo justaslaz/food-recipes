@@ -12,6 +12,13 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
+import type {
+  Category,
+  Ingredient,
+  PreparationStep,
+  User,
+} from "@prisma/client";
+
 // Page
 const RecipeDetails: NextPage = () => {
   const router = useRouter();
@@ -19,18 +26,17 @@ const RecipeDetails: NextPage = () => {
   const recipeQuery = api.recipe.getRecipe.useQuery({
     recipeId: router.query.recipeId?.toString() ?? "clhonfaf000008zt66h2svbmx",
   });
-  const categoriesQuery = api.categories.getByRecipe.useQuery({
-    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
-  });
-  const ingredientsQuery = api.ingredients.getByRecipe.useQuery({
-    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
-  });
-  const preparationStepsQuery = api.preparationSteps.getByRecipe.useQuery({
-    recipeId: recipeQuery.data?.id ?? "clhonfaf000008zt66h2svbmx",
-  });
 
   // TODO add loading spinner
-  if (recipeQuery.isFetching || !recipeQuery.data) return <div>Loading...</div>;
+  if (recipeQuery.isLoading) return <div>Kraunama...</div>;
+  if (!recipeQuery.data) return <div>Oops...</div>;
+
+  const isFavorite = (recipeQuery.data.favoriteBy as User[])?.length > 0;
+
+  // TODO onClick changing favorite state in DB
+  const handleFavorite = () => {
+    //
+  };
 
   return (
     <>
@@ -47,7 +53,7 @@ const RecipeDetails: NextPage = () => {
 
         {/* Categories */}
         <div className="absolute bottom-4 left-4 flex gap-x-4">
-          {categoriesQuery.data?.map((category) => (
+          {(recipeQuery.data.categories as Category[]).map((category) => (
             <div
               key={category.id}
               className="rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
@@ -59,10 +65,11 @@ const RecipeDetails: NextPage = () => {
 
         {/* Favorite Icon */}
         <div className="absolute right-4 top-4 transition-all hover:scale-105 active:scale-90">
-          <button type="button">
-            {/* TODO initial value from DB favorite or not, TODO onClick changing favorite state in DB */}
+          <button type="button" onClick={handleFavorite}>
             <HeartIcon
-              className="h-10 w-10 text-stone-700 transition-all duration-300 hover:scale-125 hover:fill-red-600 hover:text-red-700"
+              className={`hover:text-red-700" h-10 w-10 transition-all duration-300 hover:scale-125 hover:fill-red-600 ${
+                isFavorite ? "fill-red-600 text-red-600" : "text-stone-700"
+              }`}
               aria-hidden="true"
             />
           </button>
@@ -117,15 +124,20 @@ const RecipeDetails: NextPage = () => {
 
           <div className="max-w-5xl">
             <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
-              {ingredientsQuery.data?.map((ingredient) => (
-                <li key={ingredient.name} className="flex items-center gap-x-2">
-                  <CheckIcon
-                    className="h-4 w-4 flex-shrink-0 text-green-700"
-                    aria-hidden="true"
-                  />
-                  <span className="text-lg font-medium tracking-wide">{`${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`}</span>
-                </li>
-              ))}
+              {(recipeQuery.data.ingredients as Ingredient[]).map(
+                (ingredient) => (
+                  <li
+                    key={ingredient.name}
+                    className="flex items-center gap-x-2"
+                  >
+                    <CheckIcon
+                      className="h-4 w-4 flex-shrink-0 text-green-700"
+                      aria-hidden="true"
+                    />
+                    <span className="text-lg font-medium tracking-wide">{`${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`}</span>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -138,11 +150,13 @@ const RecipeDetails: NextPage = () => {
         </h2>
 
         <ol className="flex list-decimal flex-col gap-y-2">
-          {preparationStepsQuery.data?.map((prepStep) => (
-            <li key={prepStep.id} className="font-medium leading-7">
-              {prepStep.name}
-            </li>
-          ))}
+          {(recipeQuery.data.preparationSteps as PreparationStep[]).map(
+            (prepStep) => (
+              <li key={prepStep.id} className="font-medium leading-7">
+                {prepStep.name}
+              </li>
+            )
+          )}
         </ol>
       </div>
     </>
