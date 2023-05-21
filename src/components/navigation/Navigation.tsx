@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Popover } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -15,7 +15,7 @@ import {
   isOpenFavoritesPaletteAtom,
   isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { api } from "~/utils/api";
 
 export default function Navigation() {
@@ -24,6 +24,15 @@ export default function Navigation() {
   const setIsOpenFavoritesPalette = useSetAtom(isOpenFavoritesPaletteAtom);
 
   const favoritesCountQuery = api.recipe.getLengthOfUserFavorites.useQuery();
+
+  // Handle cache data when logging in and out
+  const trpc = api.useContext();
+  const { isSignedIn } = useAuth();
+  useEffect(() => {
+    void (async () => {
+      await trpc.invalidate();
+    })();
+  }, [isSignedIn, trpc]);
 
   return (
     <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
@@ -115,7 +124,7 @@ export default function Navigation() {
             </SignedOut>
 
             <SignedIn>
-              <UserButton afterSignOutUrl="/sign-in" />
+              <UserButton afterSignOutUrl="/" />
             </SignedIn>
             {/*  */}
           </div>

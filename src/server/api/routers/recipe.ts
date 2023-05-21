@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  protectedProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const recipeRouter = createTRPCRouter({
   getByCategory: publicProcedure
@@ -64,4 +68,41 @@ export const recipeRouter = createTRPCRouter({
     }
     return null;
   }),
+
+  addToUserFavorites: protectedProcedure
+    .input(z.object({ recipeId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.auth.userId;
+
+      return ctx.prisma.recipe.update({
+        where: { id: input.recipeId },
+        data: {
+          favoriteBy: {
+            connectOrCreate: {
+              where: { userId: userId },
+              create: {
+                userId: userId,
+              },
+            },
+          },
+        },
+      });
+    }),
+
+  removeFromUserFavorites: protectedProcedure
+    .input(z.object({ recipeId: z.string() }))
+    .mutation(({ ctx, input }) => {
+      const userId = ctx.auth.userId;
+
+      return ctx.prisma.recipe.update({
+        where: { id: input.recipeId },
+        data: {
+          favoriteBy: {
+            disconnect: {
+              userId: userId,
+            },
+          },
+        },
+      });
+    }),
 });

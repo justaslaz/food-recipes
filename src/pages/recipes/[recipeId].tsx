@@ -12,20 +12,30 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 
-import type {
-  Category,
-  Ingredient,
-  PreparationStep,
-  User,
-} from "@prisma/client";
+import type { User } from "@prisma/client";
 
 // Page
 const RecipeDetails: NextPage = () => {
   const router = useRouter();
+  const trpc = api.useContext();
 
   const recipeQuery = api.recipe.getRecipe.useQuery({
     recipeId: router.query.recipeId?.toString() ?? "clhonfaf000008zt66h2svbmx",
   });
+
+  const { mutate: addFavoriteMutation } =
+    api.recipe.addToUserFavorites.useMutation({
+      onSettled: async () => {
+        await trpc.recipe.invalidate();
+      },
+    });
+
+  const { mutate: removeFavoriteMutation } =
+    api.recipe.removeFromUserFavorites.useMutation({
+      onSettled: async () => {
+        await trpc.recipe.invalidate();
+      },
+    });
 
   // TODO add loading spinner
   if (recipeQuery.isLoading) return <div>Kraunama...</div>;
@@ -33,9 +43,15 @@ const RecipeDetails: NextPage = () => {
 
   const isFavorite = (recipeQuery.data.favoriteBy as User[])?.length > 0;
 
-  // TODO onClick changing favorite state in DB
   const handleFavorite = () => {
-    //
+    const recipeId = recipeQuery.data?.id;
+
+    if (recipeId && !isFavorite) {
+      addFavoriteMutation({ recipeId: recipeId });
+    }
+    if (recipeId && isFavorite) {
+      removeFavoriteMutation({ recipeId: recipeId });
+    }
   };
 
   return (
@@ -53,7 +69,7 @@ const RecipeDetails: NextPage = () => {
 
         {/* Categories */}
         <div className="absolute bottom-4 left-4 flex gap-x-4">
-          {(recipeQuery.data.categories as Category[]).map((category) => (
+          {recipeQuery.data.categories.map((category) => (
             <div
               key={category.id}
               className="rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
@@ -124,20 +140,15 @@ const RecipeDetails: NextPage = () => {
 
           <div className="max-w-5xl">
             <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
-              {(recipeQuery.data.ingredients as Ingredient[]).map(
-                (ingredient) => (
-                  <li
-                    key={ingredient.name}
-                    className="flex items-center gap-x-2"
-                  >
-                    <CheckIcon
-                      className="h-4 w-4 flex-shrink-0 text-green-700"
-                      aria-hidden="true"
-                    />
-                    <span className="text-lg font-medium tracking-wide">{`${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`}</span>
-                  </li>
-                )
-              )}
+              {recipeQuery.data.ingredients.map((ingredient) => (
+                <li key={ingredient.name} className="flex items-center gap-x-2">
+                  <CheckIcon
+                    className="h-4 w-4 flex-shrink-0 text-green-700"
+                    aria-hidden="true"
+                  />
+                  <span className="text-lg font-medium tracking-wide">{`${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -150,13 +161,11 @@ const RecipeDetails: NextPage = () => {
         </h2>
 
         <ol className="flex list-decimal flex-col gap-y-2">
-          {(recipeQuery.data.preparationSteps as PreparationStep[]).map(
-            (prepStep) => (
-              <li key={prepStep.id} className="font-medium leading-7">
-                {prepStep.name}
-              </li>
-            )
-          )}
+          {recipeQuery.data.preparationSteps.map((prepStep) => (
+            <li key={prepStep.id} className="font-medium leading-7">
+              {prepStep.name}
+            </li>
+          ))}
         </ol>
       </div>
     </>
