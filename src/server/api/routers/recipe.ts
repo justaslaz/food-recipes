@@ -10,15 +10,25 @@ export const recipeRouter = createTRPCRouter({
   getByCategory: publicProcedure
     .input(z.object({ categoryName: z.string().optional() }))
     .query(({ ctx, input }) => {
+      const userId = ctx.auth.userId;
+
       if (input.categoryName) {
         return ctx.prisma.recipe.findMany({
           where: {
             categories: { some: { name: { equals: input.categoryName } } },
           },
-          include: { ingredients: true },
+          include: {
+            categories: true,
+            ...(userId && { favoriteBy: { where: { userId: userId } } }),
+          },
         });
       }
-      return ctx.prisma.recipe.findMany();
+      return ctx.prisma.recipe.findMany({
+        include: {
+          categories: true,
+          ...(userId && { favoriteBy: { where: { userId: userId } } }),
+        },
+      });
     }),
 
   getRecipe: publicProcedure

@@ -1,18 +1,70 @@
+import { useAuth } from "@clerk/nextjs";
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
-import { type Recipe } from "@prisma/client";
+import type { User, Category, Recipe } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { api } from "~/utils/api";
+
+interface RecipeWithExtras extends Recipe {
+  categories: Category[];
+  favorite?: User[];
+}
+type Props = Pick<
+  RecipeWithExtras,
+  "id" | "name" | "imageUrl" | "cookingTime" | "categories" | "favorite"
+>;
 
 export default function RecipeCard({
   id,
   name,
   imageUrl,
   cookingTime,
-}: Pick<Recipe, "id" | "name" | "imageUrl" | "cookingTime">) {
-  const categoriesQuery = api.categories.getByRecipe.useQuery({
+  categories,
+  favorite,
+}: Props) {
+  const router = useRouter();
+  const trpc = api.useContext();
+  const { isSignedIn } = useAuth();
+
+  const recipeQuery = api.recipe.getRecipe.useQuery({
     recipeId: id,
   });
+
+  const { mutate: addFavoriteMutation } =
+    api.recipe.addToUserFavorites.useMutation({
+      onSettled: async () => {
+        await trpc.recipe.invalidate();
+      },
+    });
+
+  const { mutate: removeFavoriteMutation } =
+    api.recipe.removeFromUserFavorites.useMutation({
+      onSettled: async () => {
+        await trpc.recipe.invalidate();
+      },
+    });
+
+  // TODO add loading spinner
+  if (recipeQuery.isLoading) return <div>Kraunama...</div>;
+  if (!recipeQuery.data) return <div>Oops...</div>;
+
+  const isFavorite = favorite?.length ? favorite.length > 0 : false;
+
+  const handleFavorite = () => {
+    const recipeId = id;
+
+    if (!isSignedIn) {
+      void router.push("/sign-in");
+    }
+
+    if (recipeId && !isFavorite) {
+      addFavoriteMutation({ recipeId: recipeId });
+    }
+    if (recipeId && isFavorite) {
+      removeFavoriteMutation({ recipeId: recipeId });
+    }
+  };
 
   return (
     <div className="group relative flex h-96 w-72 flex-col overflow-hidden rounded-lg border border-stone-200 bg-white shadow-sm">
@@ -29,10 +81,12 @@ export default function RecipeCard({
 
       {/* Favorite Icon */}
       <div className="absolute right-2 top-2 transition-all hover:scale-105 active:scale-90">
-        <button type="button">
+        <button type="button" onClick={handleFavorite}>
           {/* TODO initial value from DB favorite or not, TODO onClick changing favorite state in DB */}
           <HeartIcon
-            className="h-8 w-8 text-stone-700 transition-all duration-300 hover:scale-125 hover:fill-red-600 hover:text-red-700"
+            className={`h-8 w-8 transition-all duration-300 hover:scale-125 hover:fill-red-600 hover:text-red-700 ${
+              isFavorite ? "fill-red-600 text-red-700" : "text-stone-700"
+            }`}
             aria-hidden="true"
           />
         </button>
@@ -40,7 +94,7 @@ export default function RecipeCard({
 
       {/* Categories */}
       <div className="mb-4 flex gap-x-1.5 p-1.5">
-        {categoriesQuery.data?.map((category) => (
+        {categories.map((category) => (
           <div
             key={category.id}
             className="rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"

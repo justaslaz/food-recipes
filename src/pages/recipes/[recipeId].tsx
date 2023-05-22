@@ -11,16 +11,16 @@ import { correctWordEnding } from "~/utils/correctWordEnding";
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
-
-import type { User } from "@prisma/client";
+import { useAuth } from "@clerk/nextjs";
 
 // Page
 const RecipeDetails: NextPage = () => {
   const router = useRouter();
   const trpc = api.useContext();
+  const { isSignedIn } = useAuth();
 
-  const recipeQuery = api.recipe.getRecipe.useQuery({
-    recipeId: router.query.recipeId?.toString() ?? "clhonfaf000008zt66h2svbmx",
+  const { data: recipeData, isLoading } = api.recipe.getRecipe.useQuery({
+    recipeId: router.query.recipeId?.toString() ?? "",
   });
 
   const { mutate: addFavoriteMutation } =
@@ -38,13 +38,20 @@ const RecipeDetails: NextPage = () => {
     });
 
   // TODO add loading spinner
-  if (recipeQuery.isLoading) return <div>Kraunama...</div>;
-  if (!recipeQuery.data) return <div>Oops...</div>;
+  if (isLoading) return <div>Kraunama...</div>;
+  if (!recipeData) return <div>Oops...</div>;
 
-  const isFavorite = (recipeQuery.data.favoriteBy as User[])?.length > 0;
+  // const isFavorite = favorite?.length ? favorite.length > 0 : false;
+  const isFavorite = recipeData.favoriteBy?.length
+    ? recipeData.favoriteBy.length > 0
+    : false;
 
   const handleFavorite = () => {
-    const recipeId = recipeQuery.data?.id;
+    const recipeId = recipeData?.id;
+
+    if (!isSignedIn) {
+      void router.push("/sign-in");
+    }
 
     if (recipeId && !isFavorite) {
       addFavoriteMutation({ recipeId: recipeId });
@@ -59,8 +66,8 @@ const RecipeDetails: NextPage = () => {
       {/* IMAGE SECTION */}
       <div className="relative mx-auto mb-8 max-w-7xl overflow-hidden sm:mb-10 md:mb-12">
         <Image
-          src={recipeQuery.data.imageUrl}
-          alt={recipeQuery.data.name}
+          src={recipeData.imageUrl}
+          alt={recipeData.name}
           height={500}
           width={750}
           priority
@@ -69,7 +76,7 @@ const RecipeDetails: NextPage = () => {
 
         {/* Categories */}
         <div className="absolute bottom-4 left-4 flex gap-x-4">
-          {recipeQuery.data.categories.map((category) => (
+          {recipeData.categories.map((category) => (
             <div
               key={category.id}
               className="rounded-md bg-green-100 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"
@@ -83,8 +90,8 @@ const RecipeDetails: NextPage = () => {
         <div className="absolute right-4 top-4 transition-all hover:scale-105 active:scale-90">
           <button type="button" onClick={handleFavorite}>
             <HeartIcon
-              className={`hover:text-red-700" h-10 w-10 transition-all duration-300 hover:scale-125 hover:fill-red-600 ${
-                isFavorite ? "fill-red-600 text-red-600" : "text-stone-700"
+              className={`h-10 w-10 transition-all duration-300 hover:scale-125 hover:fill-red-600 hover:text-red-700 ${
+                isFavorite ? "fill-red-600 text-red-700" : "text-stone-700"
               }`}
               aria-hidden="true"
             />
@@ -95,14 +102,14 @@ const RecipeDetails: NextPage = () => {
       {/* INFO SECTION */}
       <div className="mx-auto mb-14 flex max-w-7xl flex-col items-center justify-center gap-8 sm:mb-16 sm:gap-12 md:mb-20">
         <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
-          {recipeQuery.data.name}
+          {recipeData.name}
         </h1>
 
         <div className="flex gap-x-20">
           {/* Time Block */}
           <div className="flex gap-x-2">
             <ClockIcon className="h-6 w-6 text-stone-700" aria-hidden="true" />
-            <span className="font-medium">{`${recipeQuery.data.cookingTime} min`}</span>
+            <span className="font-medium">{`${recipeData.cookingTime} min`}</span>
           </div>
 
           {/* Serving Size Block */}
@@ -115,10 +122,8 @@ const RecipeDetails: NextPage = () => {
             </button>
 
             <UserIcon className="h-6 w-6 text-stone-700" aria-hidden="true" />
-            <span className="font-medium">{`${
-              recipeQuery.data.servingSize
-            } porcij${
-              correctWordEnding(recipeQuery.data.servingSize) as string
+            <span className="font-medium">{`${recipeData.servingSize} porcij${
+              correctWordEnding(recipeData.servingSize) as string
             }`}</span>
 
             <button
@@ -140,7 +145,7 @@ const RecipeDetails: NextPage = () => {
 
           <div className="max-w-5xl">
             <ul className="grid grid-cols-1 gap-x-8 gap-y-4 lg:grid-cols-2">
-              {recipeQuery.data.ingredients.map((ingredient) => (
+              {recipeData.ingredients.map((ingredient) => (
                 <li key={ingredient.name} className="flex items-center gap-x-2">
                   <CheckIcon
                     className="h-4 w-4 flex-shrink-0 text-green-700"
@@ -161,7 +166,7 @@ const RecipeDetails: NextPage = () => {
         </h2>
 
         <ol className="flex list-decimal flex-col gap-y-2">
-          {recipeQuery.data.preparationSteps.map((prepStep) => (
+          {recipeData.preparationSteps.map((prepStep) => (
             <li key={prepStep.id} className="font-medium leading-7">
               {prepStep.name}
             </li>
