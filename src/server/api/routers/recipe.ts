@@ -7,6 +7,8 @@ import {
 } from "~/server/api/trpc";
 
 export const recipeRouter = createTRPCRouter({
+  ////////////////
+  // QUERIES
   getByCategory: publicProcedure
     .input(z.object({ categoryName: z.string().optional() }))
     .query(({ ctx, input }) => {
@@ -79,6 +81,8 @@ export const recipeRouter = createTRPCRouter({
     return null;
   }),
 
+  ////////////////////
+  // MUTATIONS
   addToUserFavorites: protectedProcedure
     .input(z.object({ recipeId: z.string() }))
     .mutation(({ ctx, input }) => {

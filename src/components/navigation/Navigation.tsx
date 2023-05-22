@@ -5,6 +5,7 @@ import {
   MagnifyingGlassIcon,
   HeartIcon,
   UserIcon,
+  DocumentPlusIcon,
 } from "@heroicons/react/24/outline";
 import ReceptaiPopover from "./ReceptaiPopover";
 import LinkLogo from "~/components/common/LinkLogo";
@@ -124,6 +125,24 @@ export default function Navigation() {
             </SignedOut>
 
             <SignedIn>
+              {/* Create New Recipe Button */}
+              <Link
+                href="/create-recipe"
+                className="group inline-flex items-center gap-x-1.5 rounded-md p-1 transition-colors hover:underline hover:underline-offset-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+              >
+                <div className="transition-transform group-hover:scale-105 group-active:scale-90">
+                  <DocumentPlusIcon className="h-9 w-9" aria-hidden="true" />
+                </div>
+
+                <div className="flex flex-col items-start">
+                  <span className="text-xs font-normal">Naujas</span>
+                  <span className="text-sm font-medium tracking-wider">
+                    Receptas
+                  </span>
+                </div>
+              </Link>
+
+              {/* Clerk User Account Button */}
               <UserButton afterSignOutUrl="/" />
             </SignedIn>
             {/*  */}
