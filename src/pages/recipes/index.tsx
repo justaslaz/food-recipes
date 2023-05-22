@@ -32,6 +32,8 @@ const SearchResults: NextPage = () => {
               name={recipe.name}
               imageUrl={recipe.imageUrl}
               cookingTime={recipe.cookingTime}
+              categories={recipe.categories}
+              favorite={recipe.favoriteBy}
             />
           ))}
         </div>

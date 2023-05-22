@@ -36,7 +36,7 @@ export default function Hero() {
                 <div className="mt-10 flex items-center gap-x-6">
                   <Link
                     href="/recipes"
-                    className="rounded-md bg-green-700 px-5 py-2 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-95"
+                    className="rounded-md bg-green-700 px-5 py-2 text-lg font-semibold text-white shadow-sm transition-colors hover:bg-green-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 active:scale-95"
                   >
                     Receptai
                   </Link>

@@ -19,20 +19,24 @@ datasource db {
 // }
 
 model User {
-  id        String   @id @default(cuid())
-  name      String
-  email     String   @unique
+  userId String @id
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  recipes Recipe[]
+  created Recipe[] @relation("createdRecipe")
+
+  favorites Recipe[]
 }
 
 model Recipe {
-  id        String   @id @default(cuid())
-  name      String
-  authorId  String
-  author    User     @relation(fields: [authorId], references: [id])
+  id       String @id @default(cuid())
+  name     String
+  authorId String
+  author   User   @relation("createdRecipe", fields: [authorId], references: [userId])
+
+  favoriteBy User[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -1,9 +1,13 @@
 import { useSetAtom } from "jotai";
 import Link from "next/link";
-import { isOpenSearchPaletteAtom } from "~/utils/atoms";
+import {
+  isOpenSearchPaletteAtom,
+  isOpenFavoritesPaletteAtom,
+} from "~/utils/atoms";
 
 export default function Footer() {
   const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
+  const setIsOpenFavoritesPalette = useSetAtom(isOpenFavoritesPaletteAtom);
 
   return (
     <footer className="bg-transparent">
@@ -49,6 +53,7 @@ export default function Footer() {
             {/* TODO add onClick */}
             <button
               type="button"
+              onClick={() => setIsOpenFavoritesPalette(true)}
               className="text-sm leading-6 text-stone-600/80 hover:text-stone-900/80"
             >
               Mėgstamiausi
