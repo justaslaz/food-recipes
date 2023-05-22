@@ -12,9 +12,12 @@ import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { api } from "~/utils/api";
 import { useAuth } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
+import { calcIngredientQuantity } from "~/utils/calcIngredientQuantity";
 
 // Page
 const RecipeDetails: NextPage = () => {
+  const [servingSize, setServingSize] = useState(1);
   const router = useRouter();
   const trpc = api.useContext();
   const { isSignedIn } = useAuth();
@@ -22,6 +25,12 @@ const RecipeDetails: NextPage = () => {
   const { data: recipeData, isLoading } = api.recipe.getRecipe.useQuery({
     recipeId: router.query.recipeId?.toString() ?? "",
   });
+
+  useEffect(() => {
+    if (recipeData?.servingSize) {
+      setServingSize(recipeData?.servingSize);
+    }
+  }, [recipeData?.servingSize]);
 
   const { mutate: addFavoriteMutation } =
     api.recipe.addToUserFavorites.useMutation({
@@ -41,7 +50,6 @@ const RecipeDetails: NextPage = () => {
   if (isLoading) return <div>Kraunama...</div>;
   if (!recipeData) return <div>Oops...</div>;
 
-  // const isFavorite = favorite?.length ? favorite.length > 0 : false;
   const isFavorite = recipeData.favoriteBy?.length
     ? recipeData.favoriteBy.length > 0
     : false;
@@ -116,18 +124,22 @@ const RecipeDetails: NextPage = () => {
           <div className="flex gap-x-2">
             <button
               type="button"
+              onClick={() =>
+                setServingSize((prev) => (prev > 1 ? prev - 1 : prev))
+              }
               className="-m-2 p-2 text-stone-500 transition-all hover:-translate-y-0.5 hover:text-red-700"
             >
               <MinusCircleIcon className="h-5 w-5" aria-hidden="true" />
             </button>
 
             <UserIcon className="h-6 w-6 text-stone-700" aria-hidden="true" />
-            <span className="font-medium">{`${recipeData.servingSize} porcij${
-              correctWordEnding(recipeData.servingSize) as string
+            <span className="font-medium">{`${servingSize} porcij${
+              correctWordEnding(servingSize) as string
             }`}</span>
 
             <button
               type="button"
+              onClick={() => setServingSize((prev) => prev + 1)}
               className="-m-2 p-2 text-stone-500 transition-transform hover:-translate-y-0.5 hover:text-green-700"
             >
               <PlusCircleIcon className="h-5 w-5" aria-hidden="true" />
@@ -151,7 +163,11 @@ const RecipeDetails: NextPage = () => {
                     className="h-4 w-4 flex-shrink-0 text-green-700"
                     aria-hidden="true"
                   />
-                  <span className="text-lg font-medium tracking-wide">{`${ingredient.quantity} ${ingredient.unit} ${ingredient.name}`}</span>
+                  <span className="text-lg font-medium tracking-wide">{`${calcIngredientQuantity(
+                    ingredient.quantity,
+                    recipeData.servingSize,
+                    servingSize
+                  )} ${ingredient.unit} ${ingredient.name}`}</span>
                 </li>
               ))}
             </ul>

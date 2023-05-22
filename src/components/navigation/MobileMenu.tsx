@@ -4,7 +4,11 @@ import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { useSetAtom } from "jotai";
-import { isOpenSearchPaletteAtom } from "~/utils/atoms";
+import {
+  isOpenSearchPaletteAtom,
+  isOpenFavoritesPaletteAtom,
+} from "~/utils/atoms";
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 interface Props {
   open: boolean;
@@ -14,9 +18,14 @@ interface Props {
 export default function MobileMenu({ open, onClose }: Props) {
   const { data: categoriesArr } = api.categories.getAll.useQuery();
   const setIsOpenSearchPalette = useSetAtom(isOpenSearchPaletteAtom);
+  const setIsOpenFavoritesPaletteAtom = useSetAtom(isOpenFavoritesPaletteAtom);
 
   const handleSearchPaletteOpening = () => {
     setIsOpenSearchPalette(true);
+    onClose();
+  };
+  const handleFavoritePaletteOpening = () => {
+    setIsOpenFavoritesPaletteAtom(true);
     onClose();
   };
 
@@ -81,8 +90,8 @@ export default function MobileMenu({ open, onClose }: Props) {
             {/* TODO add search functionality, open modal on click */}
             <button
               type="button"
-              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
               onClick={handleSearchPaletteOpening}
+              className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
             >
               Paieška
             </button>
@@ -93,30 +102,42 @@ export default function MobileMenu({ open, onClose }: Props) {
             {/* TODO add favorites functionality, open modal on click */}
             <button
               type="button"
+              onClick={handleFavoritePaletteOpening}
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
-              onClick={onClose}
             >
               Mėgstamiausi
             </button>
           </div>
 
           <div className="-mx-3 my-3 flex flex-col border-t border-stone-500/10">
-            {/* TODO add href */}
-            <Link
-              href="/"
-              className="mt-3 w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
-              onClick={onClose}
-            >
-              Prisijungimas
-            </Link>
-            {/* TODO add href */}
-            <Link
-              href="/"
-              className="w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
-              onClick={onClose}
-            >
-              Registracija
-            </Link>
+            <SignedIn>
+              <Link
+                href="/create-recipe"
+                className="mt-3 w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+                onClick={onClose}
+              >
+                Sukurti naują receptą
+              </Link>
+              <div className="px-3 py-2">
+                <UserButton afterSignOutUrl="/" />
+              </div>
+            </SignedIn>
+            <SignedOut>
+              <Link
+                href="/sign-in"
+                className="mt-3 w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+                onClick={onClose}
+              >
+                Prisijungimas
+              </Link>
+              <Link
+                href="/sign-up"
+                className="w-full items-center justify-between rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-stone-50"
+                onClick={onClose}
+              >
+                Registracija
+              </Link>
+            </SignedOut>
           </div>
         </div>
       </Dialog.Panel>
