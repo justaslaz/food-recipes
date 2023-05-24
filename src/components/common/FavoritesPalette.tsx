@@ -53,7 +53,7 @@ export default function FavoritesPalette() {
                       hover:cursor-pointer hover:bg-green-700 hover:text-white"
                       >
                         <Image
-                          src={recipe.imageUrl}
+                          src={recipe.imageUrl ?? "/no-photo.png"}
                           alt={recipe.name}
                           height={100}
                           width={100}
