@@ -60,8 +60,8 @@ model Category {
 model Ingredient {
   id                String  @id @default(cuid())
   name              String
-  quantity          Float
-  unit              String
+  quantity          Float?
+  unit              String?
   quantitySecondary Float?
   unitSecondary     String?
   recipeId          String
@@ -72,6 +72,7 @@ model Ingredient {
 
 model PreparationStep {
   id       String @id @default(cuid())
+  stepNum  Int
   name     String
   recipeId String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
