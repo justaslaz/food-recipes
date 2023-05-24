@@ -164,10 +164,10 @@ const RecipeDetails: NextPage = () => {
                     aria-hidden="true"
                   />
                   <span className="text-lg font-medium tracking-wide">{`${calcIngredientQuantity(
-                    ingredient.quantity,
+                    ingredient.quantity ?? 0,
                     recipeData.servingSize,
                     servingSize
-                  )} ${ingredient.unit} ${ingredient.name}`}</span>
+                  )} ${ingredient.unit ?? ""} ${ingredient.name}`}</span>
                 </li>
               ))}
             </ul>
