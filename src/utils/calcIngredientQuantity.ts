@@ -3,5 +3,7 @@ export const calcIngredientQuantity = (
   initServingSize: number,
   curServingSize: number
 ) => {
-  return (quantity / initServingSize) * curServingSize;
+  if (quantity === 0) return "";
+  const result = (quantity / initServingSize) * curServingSize;
+  return result;
 };

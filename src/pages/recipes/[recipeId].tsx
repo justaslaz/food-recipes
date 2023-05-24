@@ -74,10 +74,10 @@ const RecipeDetails: NextPage = () => {
       {/* IMAGE SECTION */}
       <div className="relative mx-auto mb-8 max-w-7xl overflow-hidden sm:mb-10 md:mb-12">
         <Image
-          src={recipeData.imageUrl}
+          src={recipeData.imageUrl ?? "/no-photo.png"}
           alt={recipeData.name}
-          height={500}
-          width={750}
+          height={1024}
+          width={1664}
           priority
           className="h-96 w-full object-cover contrast-50"
         />
@@ -164,10 +164,10 @@ const RecipeDetails: NextPage = () => {
                     aria-hidden="true"
                   />
                   <span className="text-lg font-medium tracking-wide">{`${calcIngredientQuantity(
-                    ingredient.quantity,
+                    ingredient.quantity ?? 0,
                     recipeData.servingSize,
                     servingSize
-                  )} ${ingredient.unit} ${ingredient.name}`}</span>
+                  )} ${ingredient.unit ?? ""} ${ingredient.name}`}</span>
                 </li>
               ))}
             </ul>

@@ -91,7 +91,7 @@ export default function SearchPalette() {
                         }`}
                       >
                         <Image
-                          src={recipe.imageUrl}
+                          src={recipe.imageUrl ?? "/no-photo.png"}
                           alt={recipe.name}
                           height={100}
                           width={100}

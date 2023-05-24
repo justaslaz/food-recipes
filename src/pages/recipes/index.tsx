@@ -1,21 +1,24 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import RecipeCard from "~/components/search-results/RecipeCard";
 import { api } from "~/utils/api";
 
 // Page
 const SearchResults: NextPage = () => {
   const { query } = useRouter();
+  const [pageNum, setPageNum] = useState(1);
 
-  const recipesQuery = api.recipe.getByCategory.useQuery({
+  const { data: recipesData } = api.recipe.getByCategory.useQuery({
     categoryName: query.categoryName?.toString(),
+    pageNum: pageNum,
   });
 
   // Title
   const titleWords = query.categoryName
     ? `Paieška: ${query.categoryName.toString()}`
     : "Rodomi visi receptai";
-  const foundResultsAmount = recipesQuery.data?.length ?? 0;
+  const foundResultsAmount = recipesData?.length ?? 0;
 
   return (
     <>
@@ -25,7 +28,7 @@ const SearchResults: NextPage = () => {
       <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         {/* LAYOUT - RECIPES LIST */}
         <div className="mb-10 flex flex-wrap justify-center gap-10 lg:mb-14 lg:gap-14">
-          {recipesQuery.data?.map((recipe) => (
+          {recipesData?.recipes?.map((recipe) => (
             <RecipeCard
               key={recipe.id}
               id={recipe.id}
@@ -44,29 +47,42 @@ const SearchResults: NextPage = () => {
           aria-label="Pagination"
         >
           <div className="hidden sm:block">
-            {/* TODO make count of shown results dynamic */}
             <p className="text-sm">
-              Rodomi <span className="font-medium">1 - 9</span> paieškos
-              rezultatai iš{" "}
+              Rodomi {/* Results from X */}
+              <span className="font-medium">{pageNum * 9 - 8}</span> -{" "}
+              {/* Results to Y */}
+              <span className="font-medium">
+                {pageNum * 9 < foundResultsAmount
+                  ? pageNum * 9
+                  : foundResultsAmount}
+              </span>{" "}
+              paieškos rezultatai iš{" "}
               <span className="font-medium">{foundResultsAmount}</span>
             </p>
           </div>
-
-          <div className="flex items-center justify-center sm:justify-end">
-            {/* TODO create logic of pagination */}
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-stone-900 ring-1 ring-inset ring-stone-300 hover:bg-stone-50 focus-visible:outline-offset-0"
-            >
-              Buvęs puslapis
-            </button>
-            <button
-              type="button"
-              className="ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-stone-900 ring-1 ring-inset ring-stone-300 hover:bg-stone-50 focus-visible:outline-offset-0"
-            >
-              Kitas puslapis
-            </button>
-          </div>
+          {/* Buttons visible only when the page is not FIRST or LAST */}
+          {(pageNum > 1 || pageNum * 9 < foundResultsAmount) && (
+            <div className="flex items-center justify-center sm:justify-end">
+              {pageNum > 1 && (
+                <button
+                  type="button"
+                  onClick={() => setPageNum((prev) => prev - 1)}
+                  className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-stone-900 ring-1 ring-inset ring-stone-300 hover:bg-stone-50 focus-visible:outline-offset-0"
+                >
+                  Buvęs puslapis
+                </button>
+              )}
+              {pageNum * 9 < foundResultsAmount && (
+                <button
+                  type="button"
+                  onClick={() => setPageNum((prev) => prev + 1)}
+                  className="ml-3 inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-stone-900 ring-1 ring-inset ring-stone-300 hover:bg-stone-50 focus-visible:outline-offset-0"
+                >
+                  Kitas puslapis
+                </button>
+              )}
+            </div>
+          )}
         </nav>
       </div>
     </>

@@ -1,17 +1,52 @@
 import Link from "next/link";
 import Image from "next/image";
 
-// TODO data should come from DB
 const MOCKUP_POPULAR = [
-  { name: "Chicken Salad", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad2", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad3", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad4", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad5", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad6", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad7", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad8", href: "/", imageUrl: "/plate-food.jpg" },
-  { name: "Chicken Salad9", href: "/", imageUrl: "/plate-food.jpg" },
+  {
+    name: "Kiaušinių, pomidorų ir saulėgrąžų daigų salotos",
+    id: "cli08brwk002a8zr76krs4tr0",
+    imageUrl: "/salotos-kiausiniai-daigai.jpg",
+  },
+  {
+    name: "Lašiša su žalumynais ir raugintais agurkais",
+    id: "cli088zxo00268zr72avxd8ge",
+    imageUrl: "/lasisa-zalumynai-raug-agurkai.jpg",
+  },
+  {
+    name: "Avižų kruopų košė su cinamonu ir kokoso drožlėmis",
+    id: "cli07c3xg00028zr7x2iyknk4",
+    imageUrl: "/kose-avizos-moliugas.jpg",
+  },
+  {
+    name: "Cukinijos ir spindulinių pupuolių troškinys",
+    id: "cli08m9da002e8zr7xem0usmk",
+    imageUrl: "/troskinys-cukinijos-spind-pupuoles.jpg",
+  },
+  {
+    name: "Cukinijos lazanija su kalakutiena ir sūriu",
+    id: "cli099hxb003c8zr7zzllg38e",
+    imageUrl: "/cukinijos-lazanija.jpg",
+  },
+  {
+    name: "Lęšių troškinys su pomidorais",
+    id: "cli092x0500348zr7utrtbpd7",
+    imageUrl: "/troskinys-lesiai-pomidorai.jpg",
+  },
+  {
+    name: "Vištienos vėrinukai su pomidorais ir sojos padažu",
+    id: "cli08opd5002i8zr7tcjs8w5y",
+    imageUrl: "/vistiena-verinukai.jpg",
+  },
+  {
+    name: "Baklažanų ir varškės suktinukai su kalendra",
+    id: "cli09c7tb003g8zr7wizoq2g1",
+    imageUrl: "/baklazanai-varske.jpg",
+  },
+  {
+    name: "Avinžirniai su brokoliais",
+    id: "cli0869x000228zr78q7lsa9q",
+    imageUrl: "/avinzirniai-brokoliai.jpg",
+  },
 ];
 
 export default function Popular() {
@@ -31,10 +66,9 @@ export default function Popular() {
 
         <div className="mt-14 flex max-w-lg flex-wrap place-content-center place-items-center gap-8 px-4 lg:max-w-4xl lg:gap-x-14 lg:gap-y-10">
           {MOCKUP_POPULAR.map((meal, i) => (
-            // TODO add href
             <Link
               key={meal.name}
-              href={meal.href}
+              href={`/recipes/${meal.id}`}
               className="overflow-hidden rounded-3xl shadow-md transition-shadow duration-300 hover:shadow-2xl"
             >
               <Image

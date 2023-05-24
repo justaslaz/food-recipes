@@ -10,28 +10,44 @@ export const recipeRouter = createTRPCRouter({
   ////////////////
   // QUERIES
   getByCategory: publicProcedure
-    .input(z.object({ categoryName: z.string().optional() }))
-    .query(({ ctx, input }) => {
+    .input(
+      z.object({ categoryName: z.string().optional(), pageNum: z.number() })
+    )
+    .query(async ({ ctx, input: { categoryName, pageNum } }) => {
       const userId = ctx.auth.userId;
 
-      if (input.categoryName) {
-        return ctx.prisma.recipe.findMany({
+      const length = await ctx.prisma.recipe.count({
+        where: { categories: { some: { name: { equals: categoryName } } } },
+      });
+
+      let recipes;
+      if (categoryName) {
+        recipes = await ctx.prisma.recipe.findMany({
+          skip: 9 * (pageNum - 1),
+          take: 9,
           where: {
-            categories: { some: { name: { equals: input.categoryName } } },
+            categories: { some: { name: { equals: categoryName } } },
           },
           include: {
             categories: true,
             ...(userId && { favoriteBy: { where: { userId: userId } } }),
           },
         });
+      } else {
+        recipes = await ctx.prisma.recipe.findMany({
+          skip: 9 * (pageNum - 1),
+          take: 9,
+          include: {
+            categories: true,
+            ...(userId && { favoriteBy: { where: { userId: userId } } }),
+          },
+        });
       }
-      return ctx.prisma.recipe.findMany({
-        include: {
-          categories: true,
-          ...(userId && { favoriteBy: { where: { userId: userId } } }),
-        },
-      });
+
+      return { length, recipes };
     }),
+
+  // getByCategoryLength: publicProcedure.input(z.object({categoryName: z.string().optional()})).query
 
   getRecipe: publicProcedure
     .input(z.object({ recipeId: z.string() }))

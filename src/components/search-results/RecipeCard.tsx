@@ -71,10 +71,10 @@ export default function RecipeCard({
       {/* Image */}
       <figure className="h-48 w-full group-hover:opacity-75">
         <Image
-          src={imageUrl}
+          src={imageUrl ?? "/no-photo.png"}
           alt={name}
-          height={500}
-          width={750}
+          height={1024}
+          width={1664}
           className="h-48 w-full object-cover"
         />
       </figure>
