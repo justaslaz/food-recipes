@@ -26,3 +26,5 @@ This is a [Food Recipes App](https://receptai.justaslazevnikas.com/) built for p
 ## Author
 
 App is built by Justas Laževnikas. Take a look at the [Justas Portfolio](https://justaslazevnikas.com/) for more information.
+
+testing db migrate to prod
