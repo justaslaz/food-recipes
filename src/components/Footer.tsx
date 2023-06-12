@@ -1,8 +1,8 @@
 import { useSetAtom } from "jotai";
 import Link from "next/link";
 import {
-  isOpenSearchPaletteAtom,
   isOpenFavoritesPaletteAtom,
+  isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
 
 export default function Footer() {
