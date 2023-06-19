@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { useAuth } from "@clerk/nextjs";
 import {
   CheckIcon,
   ClockIcon,
@@ -7,13 +7,14 @@ import {
   PlusCircleIcon,
   UserIcon,
 } from "@heroicons/react/24/outline";
-import { correctWordEnding } from "~/utils/correctWordEnding";
 import { type NextPage } from "next";
+import Image from "next/image";
 import { useRouter } from "next/router";
-import { api } from "~/utils/api";
-import { useAuth } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import LoadingSpinner from "~/components/common/LoadingSpinner";
+import { api } from "~/utils/api";
 import { calcIngredientQuantity } from "~/utils/calcIngredientQuantity";
+import { correctWordEnding } from "~/utils/correctWordEnding";
 
 // Page
 const RecipeDetails: NextPage = () => {
@@ -46,9 +47,8 @@ const RecipeDetails: NextPage = () => {
       },
     });
 
-  // TODO add loading spinner
-  if (isLoading) return <div>Kraunama...</div>;
-  if (!recipeData) return <div>Oops...</div>;
+  if (isLoading) return <LoadingSpinner size="large" />;
+  if (!recipeData) return <div>Oops, something went wrong!</div>;
 
   const isFavorite = recipeData.favoriteBy?.length
     ? recipeData.favoriteBy.length > 0

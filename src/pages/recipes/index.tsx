@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import LoadingSpinner from "~/components/common/LoadingSpinner";
 import RecipeCard from "~/components/search-results/RecipeCard";
 import { api } from "~/utils/api";
 
@@ -9,10 +10,13 @@ const SearchResults: NextPage = () => {
   const { query } = useRouter();
   const [pageNum, setPageNum] = useState(1);
 
-  const { data: recipesData } = api.recipe.getByCategory.useQuery({
+  const { data: recipesData, isLoading } = api.recipe.getByCategory.useQuery({
     categoryName: query.categoryName?.toString(),
     pageNum: pageNum,
   });
+
+  if (isLoading) return <LoadingSpinner size="large" />;
+  if (!recipesData) return <div>Oops, something went wrong!</div>;
 
   // Title
   const titleWords = query.categoryName
