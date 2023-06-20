@@ -109,7 +109,7 @@ const RecipeDetails: NextPage = () => {
 
       {/* INFO SECTION */}
       <div className="mx-auto mb-14 flex max-w-7xl flex-col items-center justify-center gap-8 sm:mb-16 sm:gap-12 md:mb-20">
-        <h1 className="text-3xl font-bold tracking-tight sm:text-5xl">
+        <h1 className="text-3xl text-center px-4 font-bold tracking-tight sm:text-5xl">
           {recipeData.name}
         </h1>
 
@@ -149,7 +149,7 @@ const RecipeDetails: NextPage = () => {
       </div>
 
       {/* INGREDIENTS SECTION */}
-      <div className="mx-auto mb-20 flex max-w-7xl items-center justify-center sm:mb-24 md:mb-28">
+      <div className="mx-auto px-2 mb-20 flex max-w-7xl items-center justify-center sm:mb-24 md:mb-28">
         <div className="flex flex-col items-center justify-center gap-8 rounded-2xl p-6 shadow-xl ring-1 ring-stone-300 sm:gap-12 sm:p-8 md:p-10 lg:p-12">
           <h2 className="text-2xl font-bold tracking-tight sm:text-4xl">
             Jums reikės
