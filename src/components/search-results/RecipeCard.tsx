@@ -1,6 +1,6 @@
 import { useAuth } from "@clerk/nextjs";
 import { ClockIcon, HeartIcon } from "@heroicons/react/24/outline";
-import type { User, Category, Recipe } from "@prisma/client";
+import type { Category, Recipe, User } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,10 +27,6 @@ export default function RecipeCard({
   const trpc = api.useContext();
   const { isSignedIn } = useAuth();
 
-  const recipeQuery = api.recipe.getRecipe.useQuery({
-    recipeId: id,
-  });
-
   const { mutate: addFavoriteMutation } =
     api.recipe.addToUserFavorites.useMutation({
       onSettled: async () => {
@@ -44,10 +40,6 @@ export default function RecipeCard({
         await trpc.recipe.invalidate();
       },
     });
-
-  // TODO add loading spinner
-  if (recipeQuery.isLoading) return <div>Kraunama...</div>;
-  if (!recipeQuery.data) return <div>Oops...</div>;
 
   const isFavorite = favorite?.length ? favorite.length > 0 : false;
 
@@ -82,7 +74,6 @@ export default function RecipeCard({
       {/* Favorite Icon */}
       <div className="absolute right-2 top-2 transition-all hover:scale-105 active:scale-90">
         <button type="button" onClick={handleFavorite}>
-          {/* TODO initial value from DB favorite or not, TODO onClick changing favorite state in DB */}
           <HeartIcon
             className={`h-8 w-8 transition-all duration-300 hover:scale-125 hover:fill-red-600 hover:text-red-700 ${
               isFavorite ? "fill-red-600 text-red-700" : "text-stone-700"
