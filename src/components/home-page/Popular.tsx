@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 const MOCKUP_POPULAR = [
   {
@@ -64,7 +64,7 @@ export default function Popular() {
           patiekalų!
         </p>
 
-        <div className="mt-14 flex max-w-lg flex-wrap place-content-center place-items-center gap-8 px-4 lg:max-w-4xl lg:gap-x-14 lg:gap-y-10">
+        <div className="mt-14 flex max-w-lg flex-wrap place-content-center place-items-center gap-4 px-2 sm:gap-8 lg:max-w-4xl lg:gap-x-14 lg:gap-y-10">
           {MOCKUP_POPULAR.map((meal, i) => (
             <Link
               key={meal.name}
@@ -76,8 +76,8 @@ export default function Popular() {
                 alt={meal.name}
                 width={150}
                 height={100}
-                className={`h-24 w-24 object-cover transition-transform duration-300 hover:scale-110 ${
-                  i % 2 === 0 ? "h-32 w-32" : ""
+                className={`h-16 w-16 sm:h-24 sm:w-24 object-cover transition-transform duration-300 hover:scale-110 ${
+                  i % 2 === 0 ? "h-20 w-20 sm:h-32 sm:w-32" : ""
                 }`}
               />
             </Link>
