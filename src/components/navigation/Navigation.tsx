@@ -6,7 +6,6 @@ import {
   HeartIcon,
   MagnifyingGlassIcon,
   UserIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useSetAtom } from "jotai";
 import Link from "next/link";
@@ -38,7 +37,7 @@ export default function Navigation() {
   }, [isSignedIn, trpc]);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
+    <header className="sticky top-0 z-10 border-b border-b-stone-100 bg-white shadow-sm">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8"
         aria-label="Global"
@@ -53,14 +52,10 @@ export default function Navigation() {
           <button
             type="button"
             className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-stone-700"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            onClick={() => setIsMobileMenuOpen(true)}
           >
             <span className="sr-only">Open/Close mobile menu</span>
-            {isMobileMenuOpen ? (
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-            ) : (
-              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
-            )}
+            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
 
