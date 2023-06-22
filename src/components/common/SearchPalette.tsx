@@ -1,10 +1,10 @@
-import { useState, type ChangeEvent, useEffect, Fragment } from "react";
-import { useRouter } from "next/router";
-import Image from "next/image";
-import { Dialog, Combobox, Transition } from "@headlessui/react";
+import { Combobox, Dialog, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { api } from "~/utils/api";
 import { useAtom } from "jotai";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { type ChangeEvent, Fragment, useEffect, useState } from "react";
+import { api } from "~/utils/api";
 import { isOpenSearchPaletteAtom } from "~/utils/atoms";
 
 export default function SearchPalette() {
@@ -45,7 +45,7 @@ export default function SearchPalette() {
     <Transition.Root show={isOpen} as={Fragment} appear>
       <Dialog
         onClose={() => setIsOpen(false)}
-        className="fixed inset-0 z-20 overflow-y-auto p-4 pt-[25vh]"
+        className="fixed inset-0 z-20 overflow-y-auto p-10 pt-[25vh]"
       >
         {/* Overlay */}
         <Transition.Child

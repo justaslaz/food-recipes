@@ -1,14 +1,13 @@
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Dialog, Disclosure } from "@headlessui/react";
-import LinkLogo from "~/components/common/LinkLogo";
-import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useSetAtom } from "jotai";
 import {
-  isOpenSearchPaletteAtom,
   isOpenFavoritesPaletteAtom,
+  isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 interface Props {
   open: boolean;
@@ -32,19 +31,7 @@ export default function MobileMenu({ open, onClose }: Props) {
   return (
     <Dialog as="div" className="lg:hidden" open={open} onClose={onClose}>
       <div className="fixed inset-0 z-10 bg-stone-500/50 backdrop-blur" />
-      <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-scroll bg-white px-6 sm:max-w-sm sm:ring-1 sm:ring-stone-900/10">
-        <div className="flex items-center justify-between">
-          <LinkLogo />
-          <button
-            type="button"
-            className="-m-2 rounded-md p-2 text-stone-700"
-            onClick={onClose}
-          >
-            <span className="sr-only">Close mobile menu</span>
-            <XMarkIcon className="h-6 w-6" aria-hidden="true" />
-          </button>
-        </div>
-
+      <Dialog.Panel className="fixed pt-16 inset-y-0 right-0 z-10 w-full overflow-y-scroll bg-white px-6 sm:max-w-sm sm:ring-1 sm:ring-stone-900/10">
         <div className="mt-6 flow-root">
           {/* Receptai Drop-down */}
           <Disclosure as="div" className="-mx-3">
