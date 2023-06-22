@@ -45,7 +45,7 @@ export default function SearchPalette() {
     <Transition.Root show={isOpen} as={Fragment} appear>
       <Dialog
         onClose={() => setIsOpen(false)}
-        className="fixed inset-0 z-20 overflow-y-auto p-10 pt-[25vh]"
+        className="fixed inset-0 z-20 overflow-y-auto p-4 pt-[25vh]"
       >
         {/* Overlay */}
         <Transition.Child
