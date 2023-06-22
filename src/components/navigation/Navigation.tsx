@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { Popover } from "@headlessui/react";
 import {
   Bars3Icon,
-  MagnifyingGlassIcon,
-  HeartIcon,
-  UserIcon,
   DocumentPlusIcon,
+  HeartIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
-import ReceptaiPopover from "./ReceptaiPopover";
-import LinkLogo from "~/components/common/LinkLogo";
-import MobileMenu from "./MobileMenu";
-import Link from "next/link";
 import { useSetAtom } from "jotai";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import LinkLogo from "~/components/common/LinkLogo";
+import { api } from "~/utils/api";
 import {
   isOpenFavoritesPaletteAtom,
   isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
-import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
-import { api } from "~/utils/api";
+
+import MobileMenu from "./MobileMenu";
+import ReceptaiPopover from "./ReceptaiPopover";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -51,10 +53,14 @@ export default function Navigation() {
           <button
             type="button"
             className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-stone-700"
-            onClick={() => setIsMobileMenuOpen(true)}
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           >
-            <span className="sr-only">Open mobile menu</span>
-            <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            <span className="sr-only">Open/Close mobile menu</span>
+            {isMobileMenuOpen ? (
+              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+            ) : (
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+            )}
           </button>
         </div>
 
