@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react";
+import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { Popover } from "@headlessui/react";
 import {
   Bars3Icon,
-  MagnifyingGlassIcon,
-  HeartIcon,
-  UserIcon,
   DocumentPlusIcon,
+  HeartIcon,
+  MagnifyingGlassIcon,
+  UserIcon,
 } from "@heroicons/react/24/outline";
-import ReceptaiPopover from "./ReceptaiPopover";
-import LinkLogo from "~/components/common/LinkLogo";
-import MobileMenu from "./MobileMenu";
-import Link from "next/link";
 import { useSetAtom } from "jotai";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import LinkLogo from "~/components/common/LinkLogo";
+import { api } from "~/utils/api";
 import {
   isOpenFavoritesPaletteAtom,
   isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
-import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
-import { api } from "~/utils/api";
+
+import MobileMenu from "./MobileMenu";
+import ReceptaiPopover from "./ReceptaiPopover";
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,7 +37,7 @@ export default function Navigation() {
   }, [isSignedIn, trpc]);
 
   return (
-    <header className="sticky top-0 z-20 border-b border-b-stone-100 bg-white shadow-sm">
+    <header className="sticky top-0 z-10 border-b border-b-stone-100 bg-white shadow-sm">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between px-6 lg:px-8"
         aria-label="Global"

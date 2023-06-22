@@ -1,14 +1,13 @@
+import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { Dialog, Disclosure } from "@headlessui/react";
-import LinkLogo from "~/components/common/LinkLogo";
 import { ChevronDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useSetAtom } from "jotai";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { useSetAtom } from "jotai";
 import {
-  isOpenSearchPaletteAtom,
   isOpenFavoritesPaletteAtom,
+  isOpenSearchPaletteAtom,
 } from "~/utils/atoms";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 interface Props {
   open: boolean;
@@ -33,8 +32,7 @@ export default function MobileMenu({ open, onClose }: Props) {
     <Dialog as="div" className="lg:hidden" open={open} onClose={onClose}>
       <div className="fixed inset-0 z-10 bg-stone-500/50 backdrop-blur" />
       <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-scroll bg-white px-6 sm:max-w-sm sm:ring-1 sm:ring-stone-900/10">
-        <div className="flex items-center justify-between">
-          <LinkLogo />
+        <div className="flex h-16 items-center justify-end">
           <button
             type="button"
             className="-m-2 rounded-md p-2 text-stone-700"
