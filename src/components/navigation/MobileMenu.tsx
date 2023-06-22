@@ -30,7 +30,7 @@ export default function MobileMenu({ open, onClose }: Props) {
 
   return (
     <Dialog as="div" className="lg:hidden" open={open} onClose={onClose}>
-      <div className="fixed inset-0 z-10 bg-stone-500/50 backdrop-blur" />
+      <div className="fixed inset-0 z-20 bg-stone-500/50 backdrop-blur" />
       <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-scroll bg-white px-6 sm:max-w-sm sm:ring-1 sm:ring-stone-900/10">
         <div className="h-16 flex items-center justify-end">
           <button
@@ -38,7 +38,7 @@ export default function MobileMenu({ open, onClose }: Props) {
             className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-stone-700"
             onClick={onClose}
           >
-            <span className="sr-only">Open/Close mobile menu</span>
+            <span className="sr-only">Close mobile menu</span>
             <XMarkIcon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
