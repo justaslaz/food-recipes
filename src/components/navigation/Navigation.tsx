@@ -54,7 +54,7 @@ export default function Navigation() {
             className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-stone-700"
             onClick={() => setIsMobileMenuOpen(true)}
           >
-            <span className="sr-only">Open/Close mobile menu</span>
+            <span className="sr-only">Open mobile menu</span>
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
